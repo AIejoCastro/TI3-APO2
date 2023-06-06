@@ -32,6 +32,8 @@ public class GameSceneOne {
 
     Image backgroundImage;
 
+    private int shotsFired=0;
+
     private boolean isAlive = true;
     private boolean Apressed = false;
     private boolean Wpressed = false;
@@ -40,6 +42,12 @@ public class GameSceneOne {
 
     private Avatar avatar;
     private Paredes paredes;
+
+    private ArrayList<Weapon> weapons;
+
+    private LifeBar lifeBar;
+
+    private BulletBar bulletBar;
 
 
     private Scene scene;
@@ -60,6 +68,37 @@ public class GameSceneOne {
         canvas.setOnMouseMoved(this::onMouseMoved);
         avatar = new Avatar();
         levels = new ArrayList<>();
+        weapons = new ArrayList<>();
+
+
+        //Barras o indicadores
+
+        //De vida
+        Image[] lifeImages = {
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\2golpes.png"),   // Imagen para ultimo golpe
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\1golpe.png"),   // Imagen para un  golpes
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\fullVida.png")  // Imagen full de vida
+
+        };
+
+        lifeBar = new LifeBar(lifeImages,10,10);
+
+        ///Inicializar bullet bar y luego dibujarla
+
+
+        //De balas
+        Image[] bulletBarImages = {
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala0.png"),   // Imagen para no tener balas
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadordebala1.png"),   // 1 bala
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicador2debala.png"),  // 2 balas
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadordebala3.png"),  // 3 balas
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala4.png"),  // 4 balas
+                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala5.png")  // full balas
+        };
+
+        bulletBar = new BulletBar(bulletBarImages,10,45);
+
+
         // Generate the first map
         Level l1 = new Level(0);
         Enemy e = new Enemy(new Vector(400, 100));
@@ -67,6 +106,22 @@ public class GameSceneOne {
         l1.getEnemies().add(e);
         l1.getEnemies().add(new Enemy(new Vector(400, 300)));
         levels.add(l1);
+
+
+        //armas
+        // Crear y configurar las armas
+
+        for (int i = 0; i <= 1; i++) {
+
+            levels.get(0).generarArmaAleatoriaEnSuelo("Ak",canvas.getWidth()-25,canvas.getHeight()-25);
+
+        }
+
+        weapons.addAll(l1.getWeaponsInTheFloor());
+
+
+
+
         // Generate the second map
         Level l2 = new Level(1);
         l2.setColor(Color.GRAY);
@@ -143,22 +198,54 @@ public class GameSceneOne {
                 relativePosition > 0
         );
     }
+
     private void onMousePressed(MouseEvent e) {
         System.out.println("X: " + e.getX() + " Y: " + e.getY());
 
-        double diffX = e.getX() - avatar.pos.getX();
-        double diffY = e.getY() - avatar.pos.getY();
-        Vector diff = new Vector(diffX, diffY);
-        diff.normalize();
-        diff.setMag(4);
+        if (avatar.getWeapon() != null) {
+            if (shotsFired >= 5) {
 
-        levels.get(currentLevel).getBullets().add(
-                new Bullet(
-                        new Vector(avatar.pos.getX(), avatar.pos.getY()),
-                        diff
-                )
-        );
+                //llamo al hilo
+                avatar.getWeapon().reload();
+
+                shotsFired = 0;
+                bulletBar.restart();
+
+            } else {
+
+                double diffX = e.getX() - avatar.pos.getX();
+                double diffY = e.getY() - avatar.pos.getY();
+                Vector diff = new Vector(diffX, diffY);
+                diff.normalize();
+                diff.setMag(4);
+
+                Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
+                Image image = new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\bulletLaser.png");
+                bullet.setImage(image);
+
+                levels.get(currentLevel).getBullets().add(bullet);
+                shotsFired++;
+                System.out.println("shots fired "+shotsFired);
+                avatar.getWeapon().shoot();
+
+                //disminuir del indicador
+                bulletBar.decreaseBullet();
+
+
+
+            }
+        } else {
+            System.out.println("No weapon");
+        }
     }
+
+
+
+
+
+
+
+
 
     private void draw() {
         Thread ae = new Thread(() -> {
@@ -184,6 +271,23 @@ public class GameSceneOne {
                     for (int i = 0; i < level.getParedes().size(); i++) {
                         level.getParedes().get(i).draw(gc);
                     }
+
+                    //Armas en el suelo
+                    for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
+                        level.getWeaponsInTheFloor().get(i).draw(gc);
+
+                    }
+
+                    //dibujar barra de vida
+
+                    lifeBar.draw(gc);
+
+                    //barra de armas
+                    if(avatar.getWeapon()!=null){
+                        bulletBar.draw(gc);
+                    }
+
+
                 });
 
                 // Geometric calculations
@@ -201,6 +305,25 @@ public class GameSceneOne {
                 if (avatar.pos.getY() < 0) {
                     currentLevel = 1;
                     avatar.pos.setY(canvas.getHeight());
+                }
+
+
+                //collisions with arms
+                /// Dentro del bucle de dibujo en el método draw()
+                for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
+                    Weapon arma = level.getWeaponsInTheFloor().get(i);
+
+                    double distance = Math.sqrt(
+                            Math.pow(avatar.pos.getX() - arma.getPosX(), 2) +
+                                    Math.pow(avatar.pos.getY() - arma.getPosY(), 2)
+                    );
+
+                    if (distance < 30) {
+                        // El jugador está cerca del arma, puede recojerla
+                        avatar.equipWeapon(arma); // Agrega el arma a la lista de armas del jugador
+                        level.getWeaponsInTheFloor().remove(i); // Remueve el arma del suelo
+                        break; // Sale del bucle, asumiendo que solo se puede recojer una arma a la vez
+                    }
                 }
 
                 // Collisions with walls

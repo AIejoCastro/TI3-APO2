@@ -14,11 +14,38 @@ public class Level {
     private ArrayList<Bullet> bullets;
     private ArrayList<Paredes> paredes;
 
+    private ArrayList<Weapon> weaponsInTheFloor;
+
     public Level(int id){
         this.id = id;
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         paredes = new ArrayList<>();
+        weaponsInTheFloor = new ArrayList<>();
+    }
+
+
+    public void generarArmaAleatoriaEnSuelo(String name,double mapaAncho, double mapaAlto) {
+        int randomX = (int) (Math.random() * mapaAncho);
+        int randomY = (int) (Math.random() * mapaAlto);
+
+        Vector posicion = new Vector(randomX, randomY);
+
+
+        Weapon armaEnSuelo = new Weapon(name,randomX ,randomY);
+
+
+
+        weaponsInTheFloor.add(armaEnSuelo);
+    }
+
+
+    public ArrayList<Weapon> getWeaponsInTheFloor() {
+        return weaponsInTheFloor;
+    }
+
+    public void setWeaponsInTheFloor(ArrayList<Weapon> weaponsInTheFloor) {
+        this.weaponsInTheFloor = weaponsInTheFloor;
     }
 
     public Image getImg() {

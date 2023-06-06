@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-
 public class Avatar extends Drawing implements Runnable {
     private Image[] run;
     private Image[] idle;
@@ -20,6 +19,11 @@ public class Avatar extends Drawing implements Runnable {
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
     private Thread animationThread;
+
+    private Image[] weaponImages;
+
+    private int lives;
+    private Weapon weapon;
 
     public Avatar() {
         run = new Image[6];
@@ -41,6 +45,8 @@ public class Avatar extends Drawing implements Runnable {
         animationThread = new Thread(this);
         animationThread.setDaemon(true);
         animationThread.start();
+
+        lives = 3;
     }
 
     private void changeImage() {
@@ -55,10 +61,39 @@ public class Avatar extends Drawing implements Runnable {
         }
     }
 
+    public void equipWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        loadImagesWithGun();
+    }
+
+    private void loadImagesWithGun() {
+        String[] imagePaths = {
+                "W1final.png",
+                "W2final.png",
+                "W3final.png",
+                "W4final.png",
+                "W5final.png",
+                "W6final.png"
+        };
+
+        weaponImages = new Image[imagePaths.length];
+        for (int i = 0; i < imagePaths.length; i++) {
+            String imagePath = "file:" + HelloApplication.class.getResource(imagePaths[i]).getPath();
+            weaponImages[i] = new Image(imagePath);
+        }
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         // Draw the character image at the current position
         if (!isMoving) {
+            if (weapon != null && weaponImages != null) {
+                gc.drawImage(weaponImages[imageIndex],
+                        isFacingRight ? pos.getX() - 25 : pos.getX() + 25,
+                        pos.getY() - 25,
+                        isFacingRight ? 50 : -50,
+                        50);
+            }
             gc.drawImage(idle[imageIndex],
                     isFacingRight ? pos.getX() - 25 : pos.getX() + 25,
                     pos.getY() - 25,
@@ -70,8 +105,17 @@ public class Avatar extends Drawing implements Runnable {
                     pos.getY() - 25,
                     isFacingRight ? 50 : -50,
                     50);
+            if (weapon != null && weaponImages != null) {
+                gc.drawImage(weaponImages[imageIndex],
+                        isFacingRight ? pos.getX() - 25 : pos.getX() + 25,
+                        pos.getY() - 25,
+                        isFacingRight ? 50 : -50,
+                        50);
+            }
         }
     }
+
+
 
     public void keyPressed(String keyCode) {
         // Handle the key pressed event
@@ -106,5 +150,29 @@ public class Avatar extends Drawing implements Runnable {
 
     public DoubleProperty getyProperty() {
         return yProperty;
+    }
+
+    public Image[] getRun() {
+        return run;
+    }
+
+    public void setRun(Image[] run) {
+        this.run = run;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 }
