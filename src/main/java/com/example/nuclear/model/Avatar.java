@@ -108,12 +108,12 @@ public class Avatar extends Drawing implements Runnable {
 
     private void loadImagesWithGrenade() {
         String[] imagePaths = {
-                "Guns/W1Granade.png",
-                "Guns/W2Granade.png",
-                "Guns/W3Granade.png",
-                "Guns/W4Granade.png",
-                "Guns/W5Granade.png",
-                "Guns/W6Granade.png"
+                "Character/W1Granade.png",
+                "Character/W2Granade.png",
+                "Character/W3Granade.png",
+                "Character/W4Granade.png",
+                "Character/W5Granade.png",
+                "Character/W6Granade.png"
         };
 
         grenadeImages = new Image[imagePaths.length];

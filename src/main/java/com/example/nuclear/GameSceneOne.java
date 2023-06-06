@@ -366,7 +366,6 @@ public class GameSceneOne {
                             }
 
                             avatar.equipGrenade(grenade); // Agrega el arma a la lista de armas del jugador
-
                             level.getGrenadesInTheFloor().remove(k); // Remueve el arma del suelo
                             break; // Sale del bucle, asumiendo que solo se puede recojer una arma a la vez
                         }
