@@ -63,8 +63,6 @@ public class GameSceneOne {
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
-        String uri = "file:" + HelloApplication.class.getResource("Misc/FLoorL1.png").getPath();
-        backgroundImage = new Image(uri);
         canvas.setOnKeyPressed(this::handleKeyPressed);
         canvas.setOnKeyReleased(this::handleKeyReleased);
         canvas.setOnKeyReleased(this::onKeyReleased);
@@ -262,7 +260,7 @@ public class GameSceneOne {
                 Level level = levels.get(currentLevel);
 
                 Platform.runLater(() -> {
-                    gc.drawImage(backgroundImage, 0, 0, canvas.getWidth(), canvas.getHeight());
+                    gc.drawImage(level.getImg(), 0, 0, canvas.getWidth(), canvas.getHeight());
                     gc.setFill(Color.BLACK);
                     gc.fillRect(canvas.getWidth() - 10, 0, 10, 10);
                     avatar.draw(gc);
@@ -326,8 +324,24 @@ public class GameSceneOne {
                     avatar.pos.setY(canvas.getHeight());
                 }
 
+                //Colisiones con paredes
+                if (avatar.collidesWithWalls(levels.get(currentLevel).getParedes())) {
+                    // Colisión detectada, realiza las acciones correspondientes
+                    // Por ejemplo, puedes detener el movimiento del avatar o mostrar un mensaje
+                    if (Wpressed){
+                        avatar.pos.setY(avatar.pos.getY() + 5);
+                    }
+                    if (Apressed) {
+                        avatar.pos.setX(avatar.pos.getX() + 5);
+                    }
+                    if (Spressed) {
+                        avatar.pos.setY(avatar.pos.getY() - 5);
+                    }
+                    if (Dpressed) {
+                        avatar.pos.setX(avatar.pos.getX() - 5);
+                    }
+                }
 
-                //collisions with arms
                 /// Dentro del bucle de dibujo en el método draw()
                 for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
                     Weapon arma = level.getWeaponsInTheFloor().get(i);
@@ -371,34 +385,6 @@ public class GameSceneOne {
                         }
 
 
-                }
-
-                // Collisions with walls
-                for (Paredes paredes : level.getParedes()) {
-                    double avatarLeft = avatar.pos.getX() - 25;
-                    double avatarRight = avatar.pos.getX() + 25;
-                    double avatarTop = avatar.pos.getY() - 25   ;
-                    double avatarBottom = avatar.pos.getY() + 25;
-
-                    double wallLeft = paredes.getX() - paredes.getWidth() / 2;
-                    double wallRight = paredes.getX() + paredes.getWidth() / 2;
-                    double wallTop = paredes.getY() - paredes.getHeight() / 2;
-                    double wallBottom = paredes.getY() + paredes.getHeight() / 2;
-
-                    if (avatarLeft < wallRight && avatarRight > wallLeft && avatarTop < wallBottom && avatarBottom > wallTop) {
-                        if (avatarLeft < wallRight && avatarRight > wallRight) {
-                            avatar.pos.setX(wallRight + 25);
-                        }
-                        if (avatarRight > wallLeft && avatarLeft < wallLeft) {
-                            avatar.pos.setX(wallLeft - 25);
-                        }
-                        if (avatarTop < wallBottom && avatarBottom > wallBottom) {
-                            avatar.pos.setY(wallBottom + 25);
-                        }
-                        if (avatarBottom > wallTop && avatarTop < wallTop) {
-                            avatar.pos.setY(wallTop - 25);
-                        }
-                    }
                 }
 
                 // Collisions with enemies
@@ -538,9 +524,6 @@ public class GameSceneOne {
             int yPos = height + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
         }
-
-
-
     }
 
 }

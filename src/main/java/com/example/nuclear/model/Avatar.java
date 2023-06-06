@@ -8,6 +8,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
+import java.util.ArrayList;
 
 public class Avatar extends Drawing implements Runnable {
     private Image[] run;
@@ -19,6 +23,7 @@ public class Avatar extends Drawing implements Runnable {
     private DoubleProperty xProperty;
     private DoubleProperty yProperty;
     private Thread animationThread;
+    private Rectangle rectangle;
 
     private Image[] weaponImages;
     private Image[] grenadeImages;
@@ -170,6 +175,19 @@ public class Avatar extends Drawing implements Runnable {
         if (keyCode.equals("W") || keyCode.equals("A") || keyCode.equals("S") || keyCode.equals("D")) {
             changeImage();
         }
+    }
+
+    public Shape getBoundary() {
+        return new Rectangle(pos.getX() - 25, pos.getY() - 25, 50, 50);
+    }
+
+    public boolean collidesWithWalls(ArrayList<Paredes> paredes) {
+        for (Paredes pared : paredes) {
+            if (getBoundary().intersects(pared.getBoundary().getBoundsInLocal())) {
+                return true; // Colisión detectada
+            }
+        }
+        return false; // No hay colisión
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.nuclear.model;
 
+import com.example.nuclear.HelloApplication;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -13,13 +14,20 @@ public class Level {
     private ArrayList<Enemy> enemies;
     private ArrayList<Bullet> bullets;
     private ArrayList<Paredes> paredes;
-
+    String path0 = "file:" + HelloApplication.class.getResource("Misc/FLoorL1.png").getPath();
+    String path1= "file:" + HelloApplication.class.getResource("Misc/FLoorL2.png").getPath();
+    String path2 = "file:" + HelloApplication.class.getResource("Misc/FLoorL3.png").getPath();
 
     private ArrayList<Grenade> grenadesInTheFloor;
     private ArrayList<Weapon> weaponsInTheFloor;
 
     public Level(int id){
         this.id = id;
+        switch (id) {
+            case 0 -> img = new Image(path0);
+            case 1 -> img = new Image(path1);
+            case 2 -> img = new Image(path2);
+        }
         enemies = new ArrayList<>();
         bullets = new ArrayList<>();
         paredes = new ArrayList<>();
