@@ -41,17 +41,9 @@ public class LifeBar extends  Drawing{
     @Override
     public void draw(GraphicsContext gc) {
         Image currentImage = lifeImages[currentState];
-
-
-
         double width = 200;  // Ancho deseado
         double height = 50; // Alto deseado
         gc.drawImage(currentImage, posX,posY,width,height);
-
-
-
-
-
     }
 }
 

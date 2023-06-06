@@ -1,5 +1,6 @@
 package com.example.nuclear.model;
 
+import com.example.nuclear.HelloApplication;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -57,10 +58,7 @@ public class Grenade extends  Drawing {
 
     @Override
     public void draw(GraphicsContext gc) {
-
-
-
-        Image image = new Image("c:\\Users\\Admin\\Desktop\\Tercer semestre\\Integradora3\\NuclearThrone\\Nuclear\\src\\main\\resources\\com\\example\\nuclear\\bombita.png");
+        Image image = new Image("file:" + HelloApplication.class.getResource("bombita.png").getPath());
 
         // Especificar el ancho y alto deseados
         double width = 30;  // Ancho deseado
@@ -68,11 +66,5 @@ public class Grenade extends  Drawing {
 
         // Dibujar la imagen en el GraphicsContext con el tamaño especificado
         gc.drawImage(image, posX, posY, width, height);
-
-
-
-
-
     }
-
 }

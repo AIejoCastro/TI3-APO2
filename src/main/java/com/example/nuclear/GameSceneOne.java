@@ -80,9 +80,9 @@ public class GameSceneOne {
 
         //De vida
         Image[] lifeImages = {
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\2golpes.png"),   // Imagen para ultimo golpe
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\1golpe.png"),   // Imagen para un  golpes
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\fullVida.png")  // Imagen full de vida
+                new Image("file:" + HelloApplication.class.getResource("2golpes.png").getPath()),   // Imagen para ultimo golpe
+                new Image("file:" + HelloApplication.class.getResource("1golpe.png").getPath()),   // Imagen para un  golpes
+                new Image("file:" + HelloApplication.class.getResource("fullVida.png").getPath())  // Imagen full de vida
 
         };
 
@@ -93,12 +93,12 @@ public class GameSceneOne {
 
         //De balas
         Image[] bulletBarImages = {
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala0.png"),   // Imagen para no tener balas
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadordebala1.png"),   // 1 bala
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicador2debala.png"),  // 2 balas
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadordebala3.png"),  // 3 balas
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala4.png"),  // 4 balas
-                new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\indicadorDebala5.png")  // full balas
+                new Image("file:" + HelloApplication.class.getResource("indicadorDebala0.png").getPath()),   // Imagen para no tener balas
+                new Image("file:" + HelloApplication.class.getResource("indicadordebala1.png").getPath()),   // 1 bala
+                new Image("file:" + HelloApplication.class.getResource("indicador2debala.png").getPath()),  // 2 balas
+                new Image("file:" + HelloApplication.class.getResource("indicadordebala3.png").getPath()),  // 3 balas
+                new Image("file:" + HelloApplication.class.getResource("indicadorDebala4.png").getPath()),  // 4 balas
+                new Image("file:" + HelloApplication.class.getResource("indicadorDebala5.png").getPath())  // full balas
         };
 
         bulletBar = new BulletBar(bulletBarImages,10,45);
@@ -239,7 +239,7 @@ public class GameSceneOne {
                 diff.setMag(4);
 
                 Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
-                Image image = new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\bulletLaser.png");
+                Image image = new Image("file:" + HelloApplication.class.getResource("bulletLaser.png").getPath());
                 bullet.setImage(image);
 
                 levels.get(currentLevel).getBullets().add(bullet);
