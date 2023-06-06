@@ -74,6 +74,8 @@ public class Weapon extends Drawing {
 
         bullets = 5; // Restablecer el número de balas después de la recarga
         System.out.println("Recarga completa. Balas: " + bullets);
+
+
     }
 
 
@@ -84,14 +86,7 @@ public class Weapon extends Drawing {
 
     @Override
     public void draw(GraphicsContext gc) {
-        if (reload) {
-            System.out.println("awdadasdawd");
-            Image reloadingImage= new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\raygun.jpg");
-            double centerX = gc.getCanvas().getWidth() / 2 - reloadingImage.getWidth() / 2;
-            double centerY = gc.getCanvas().getHeight() / 2 - reloadingImage.getHeight() / 2;
-            gc.drawImage(reloadingImage, centerX, centerY);
-            reload=false;
-        }
+
 
         // Cargar la imagen del arma
         Image image = new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\raygunEdit-removebg-preview.png");
@@ -105,6 +100,17 @@ public class Weapon extends Drawing {
 
 
 
+    }
+
+    public void drawReload(GraphicsContext gc){
+        if (reload) {
+            System.out.println("awdadasdawd");
+            Image reloadingImage= new Image("C:\\Users\\Admin\\Desktop\\Tercer semestre\\TI3-APO2\\src\\main\\resources\\com\\example\\nuclear\\reload.png");
+            double centerX = gc.getCanvas().getWidth() / 2 - reloadingImage.getWidth() / 2;
+            double centerY = gc.getCanvas().getHeight() / 2 - reloadingImage.getHeight() / 2;
+            gc.drawImage(reloadingImage, centerX, centerY);
+            reload=false;
+        }
     }
 
 

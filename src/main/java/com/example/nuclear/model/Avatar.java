@@ -21,9 +21,11 @@ public class Avatar extends Drawing implements Runnable {
     private Thread animationThread;
 
     private Image[] weaponImages;
+    private Image[] grenadeImages;
 
     private int lives;
     private Weapon weapon;
+    private Grenade grenade;
 
     public Avatar() {
         run = new Image[6];
@@ -31,7 +33,7 @@ public class Avatar extends Drawing implements Runnable {
             String uri = "file:" + GameSceneOne.class.getResource("W" + i + ".png").getPath();
             run[i - 1] = new Image(uri);
         }
-        idle= new Image[4];
+        idle = new Image[4];
         for (int i = 1; i <= 4; i++) {
             String uri = "file:" + GameSceneOne.class.getResource("I" + i + ".png").getPath();
             idle[i - 1] = new Image(uri);
@@ -66,6 +68,27 @@ public class Avatar extends Drawing implements Runnable {
         loadImagesWithGun();
     }
 
+    public void unequipWeapon() {
+        this.weapon = null;
+    }
+
+    public void unequipGrenade() {
+        this.grenade = null;
+    }
+
+    public Grenade getGrenade() {
+        return grenade;
+    }
+
+    public void setGrenade(Grenade grenade) {
+        this.grenade = grenade;
+    }
+
+    public void equipGrenade(Grenade grenade) {
+        this.grenade = grenade;
+        loadImagesWithGrenade();
+    }
+
     private void loadImagesWithGun() {
         String[] imagePaths = {
                 "W1final.png",
@@ -80,6 +103,23 @@ public class Avatar extends Drawing implements Runnable {
         for (int i = 0; i < imagePaths.length; i++) {
             String imagePath = "file:" + HelloApplication.class.getResource(imagePaths[i]).getPath();
             weaponImages[i] = new Image(imagePath);
+        }
+    }
+
+    private void loadImagesWithGrenade() {
+        String[] imagePaths = {
+                "W1Granade.png",
+                "W2Granade.png",
+                "W3Granade.png",
+                "W4Granade.png",
+                "W5Granade.png",
+                "W6Granade.png"
+        };
+
+        grenadeImages = new Image[imagePaths.length];
+        for (int i = 0; i < imagePaths.length; i++) {
+            String imagePath = "file:" + HelloApplication.class.getResource(imagePaths[i]).getPath();
+            grenadeImages[i] = new Image(imagePath);
         }
     }
 
@@ -115,7 +155,15 @@ public class Avatar extends Drawing implements Runnable {
         }
     }
 
-
+    public void drawGrenade(GraphicsContext gc) {
+        if (grenade != null && grenadeImages != null) {
+            gc.drawImage(grenadeImages[imageIndex],
+                    isFacingRight ? pos.getX() - 25 : pos.getX() + 25,
+                    pos.getY() - 25,
+                    isFacingRight ? 50 : -50,
+                    50);
+        }
+    }
 
     public void keyPressed(String keyCode) {
         // Handle the key pressed event

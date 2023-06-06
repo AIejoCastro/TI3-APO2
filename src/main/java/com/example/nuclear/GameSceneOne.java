@@ -45,9 +45,13 @@ public class GameSceneOne {
 
     private ArrayList<Weapon> weapons;
 
+    private ArrayList<Grenade> grenades;
+
     private LifeBar lifeBar;
 
     private BulletBar bulletBar;
+
+
 
 
     private Scene scene;
@@ -69,6 +73,7 @@ public class GameSceneOne {
         avatar = new Avatar();
         levels = new ArrayList<>();
         weapons = new ArrayList<>();
+        grenades =  new ArrayList<>();
 
 
         //Barras o indicadores
@@ -121,6 +126,12 @@ public class GameSceneOne {
 
 
 
+        //Granadas
+            levels.get(0).generarGranadasEnElSuelo("Grenade", canvas.getWidth() - 25, canvas.getWidth() - 25);
+            grenades.addAll(l1.getGrenadesInTheFloor());
+
+
+
 
         // Generate the second map
         Level l2 = new Level(1);
@@ -153,9 +164,7 @@ public class GameSceneOne {
                 Dpressed = true;
                 avatar.keyPressed("D");
                 break;
-            case SPACE:
-                avatar.keyPressed("SPACE");
-                break;
+
         }
     }
 
@@ -190,6 +199,23 @@ public class GameSceneOne {
             case D:
                 Dpressed = false;
                 break;
+
+            case R:
+                if(avatar.getWeapon()!=null & shotsFired>=5){
+                    avatar.getWeapon().reload();
+                    shotsFired = 0;
+                    bulletBar.restart();
+
+                    avatar.getWeapon().drawReload(gc);
+                }
+                break;
+
+            case SPACE:
+
+                    //Tira granada
+
+                break;
+
         }
     }
     private void onMouseMoved(MouseEvent e) {
@@ -202,16 +228,9 @@ public class GameSceneOne {
     private void onMousePressed(MouseEvent e) {
         System.out.println("X: " + e.getX() + " Y: " + e.getY());
 
-        if (avatar.getWeapon() != null) {
-            if (shotsFired >= 5) {
+        if (avatar.getWeapon() != null && shotsFired<5) {
 
-                //llamo al hilo
-                avatar.getWeapon().reload();
 
-                shotsFired = 0;
-                bulletBar.restart();
-
-            } else {
 
                 double diffX = e.getX() - avatar.pos.getX();
                 double diffY = e.getY() - avatar.pos.getY();
@@ -231,9 +250,6 @@ public class GameSceneOne {
                 //disminuir del indicador
                 bulletBar.decreaseBullet();
 
-
-
-            }
         } else {
             System.out.println("No weapon");
         }
@@ -258,6 +274,8 @@ public class GameSceneOne {
                     gc.setFill(Color.BLACK);
                     gc.fillRect(canvas.getWidth() - 10, 0, 10, 10);
                     avatar.draw(gc);
+                    avatar.drawGrenade(gc);
+
                     avatar.setMoving(Wpressed || Spressed || Dpressed || Apressed);
                     for (int i = 0; i < level.getBullets().size(); i++) {
                         level.getBullets().get(i).draw(gc);
@@ -278,6 +296,13 @@ public class GameSceneOne {
 
                     }
 
+                    for (int i = 0; i < level.getGrenadesInTheFloor().size(); i++) {
+                        level.getGrenadesInTheFloor().get(i).draw(gc);
+
+                    }
+
+
+
                     //dibujar barra de vida
 
                     lifeBar.draw(gc);
@@ -286,6 +311,8 @@ public class GameSceneOne {
                     if(avatar.getWeapon()!=null){
                         bulletBar.draw(gc);
                     }
+
+                        ///reload
 
 
                 });
@@ -319,11 +346,40 @@ public class GameSceneOne {
                     );
 
                     if (distance < 30) {
+
+                        if(avatar.getGrenade()!= null){
+                            avatar.unequipGrenade();
+                        }
                         // El jugador está cerca del arma, puede recojerla
                         avatar.equipWeapon(arma); // Agrega el arma a la lista de armas del jugador
                         level.getWeaponsInTheFloor().remove(i); // Remueve el arma del suelo
                         break; // Sale del bucle, asumiendo que solo se puede recojer una arma a la vez
                     }
+                }
+
+                    /// Dentro del bucle de dibujo en el método draw()
+                    for (int k = 0; k < level.getGrenadesInTheFloor().size(); k++) {
+                        Grenade grenade = level.getGrenadesInTheFloor().get(k);
+
+                        double distanceGranade = Math.sqrt(
+                                Math.pow(avatar.pos.getX() - grenade.getPosX(), 2) +
+                                        Math.pow(avatar.pos.getY() - grenade.getPosY(), 2)
+                        );
+
+                        if (distanceGranade < 30) {
+                            // El jugador está cerca del arma, puede recojerla
+
+                            if(avatar.getWeapon()!=null){
+                                avatar.unequipWeapon();
+                            }
+
+                            avatar.equipGrenade(grenade); // Agrega el arma a la lista de armas del jugador
+
+                            level.getGrenadesInTheFloor().remove(k); // Remueve el arma del suelo
+                            break; // Sale del bucle, asumiendo que solo se puede recojer una arma a la vez
+                        }
+
+
                 }
 
                 // Collisions with walls

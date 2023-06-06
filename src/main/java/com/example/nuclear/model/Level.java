@@ -14,6 +14,8 @@ public class Level {
     private ArrayList<Bullet> bullets;
     private ArrayList<Paredes> paredes;
 
+
+    private ArrayList<Grenade> grenadesInTheFloor;
     private ArrayList<Weapon> weaponsInTheFloor;
 
     public Level(int id){
@@ -22,6 +24,7 @@ public class Level {
         bullets = new ArrayList<>();
         paredes = new ArrayList<>();
         weaponsInTheFloor = new ArrayList<>();
+        grenadesInTheFloor= new ArrayList<>();
     }
 
 
@@ -39,6 +42,29 @@ public class Level {
         weaponsInTheFloor.add(armaEnSuelo);
     }
 
+
+    public void generarGranadasEnElSuelo(String name,double mapaAncho, double mapaAlto) {
+        int randomX = (int) (Math.random() * mapaAncho);
+        int randomY = (int) (Math.random() * mapaAlto);
+
+        Vector posicion = new Vector(randomX, randomY);
+
+
+        Grenade grenade = new Grenade(name,randomX ,randomY);
+
+
+
+        grenadesInTheFloor.add(grenade);
+    }
+
+
+    public ArrayList<Grenade> getGrenadesInTheFloor() {
+        return grenadesInTheFloor;
+    }
+
+    public void setGrenadesInTheFloor(ArrayList<Grenade> grenadesInTheFloor) {
+        this.grenadesInTheFloor = grenadesInTheFloor;
+    }
 
     public ArrayList<Weapon> getWeaponsInTheFloor() {
         return weaponsInTheFloor;

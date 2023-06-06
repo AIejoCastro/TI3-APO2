@@ -38,6 +38,12 @@ public class Bullet extends Drawing {
         pos.setY(pos.getY() + dir.getY());
     }
 
+    public void drawGranade(GraphicsContext gc) {
+
+
+    }
+
+
     public Image getImage() {
         return image;
     }
