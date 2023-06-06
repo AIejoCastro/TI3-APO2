@@ -30,12 +30,12 @@ public class Avatar extends Drawing implements Runnable {
     public Avatar() {
         run = new Image[6];
         for (int i = 1; i <= 6; i++) {
-            String uri = "file:" + GameSceneOne.class.getResource("W" + i + ".png").getPath();
+            String uri = "file:" + GameSceneOne.class.getResource("Character/W" + i + ".png").getPath();
             run[i - 1] = new Image(uri);
         }
         idle = new Image[4];
         for (int i = 1; i <= 4; i++) {
-            String uri = "file:" + GameSceneOne.class.getResource("I" + i + ".png").getPath();
+            String uri = "file:" + GameSceneOne.class.getResource("Character/I" + i + ".png").getPath();
             idle[i - 1] = new Image(uri);
         }
 
@@ -91,12 +91,12 @@ public class Avatar extends Drawing implements Runnable {
 
     private void loadImagesWithGun() {
         String[] imagePaths = {
-                "W1final.png",
-                "W2final.png",
-                "W3final.png",
-                "W4final.png",
-                "W5final.png",
-                "W6final.png"
+                "Character/W1final.png",
+                "Character/W2final.png",
+                "Character/W3final.png",
+                "Character/W4final.png",
+                "Character/W5final.png",
+                "Character/W6final.png"
         };
 
         weaponImages = new Image[imagePaths.length];
@@ -108,12 +108,12 @@ public class Avatar extends Drawing implements Runnable {
 
     private void loadImagesWithGrenade() {
         String[] imagePaths = {
-                "W1Granade.png",
-                "W2Granade.png",
-                "W3Granade.png",
-                "W4Granade.png",
-                "W5Granade.png",
-                "W6Granade.png"
+                "Guns/W1Granade.png",
+                "Guns/W2Granade.png",
+                "Guns/W3Granade.png",
+                "Guns/W4Granade.png",
+                "Guns/W5Granade.png",
+                "Guns/W6Granade.png"
         };
 
         grenadeImages = new Image[imagePaths.length];

@@ -58,7 +58,7 @@ public class Grenade extends  Drawing {
 
     @Override
     public void draw(GraphicsContext gc) {
-        Image image = new Image("file:" + HelloApplication.class.getResource("bombita.png").getPath());
+        Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bombita.png").getPath());
 
         // Especificar el ancho y alto deseados
         double width = 30;  // Ancho deseado

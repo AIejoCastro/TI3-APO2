@@ -20,7 +20,7 @@ public class HelloController {
 
     public void initialize() {
         // Establecer la imagen de fondo
-        String uri = "file:"+HelloApplication.class.getResource("FondoGame.gif").getPath();
+        String uri = "file:"+HelloApplication.class.getResource("Misc/FondoGame.gif").getPath();
         Image imagenDeFondo = new Image(uri);
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         BackgroundImage backgroundImage = new BackgroundImage(imagenDeFondo, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);

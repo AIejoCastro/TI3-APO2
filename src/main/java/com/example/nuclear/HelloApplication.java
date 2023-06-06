@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
             Stage stage = new Stage();
             GameSceneOne gameSceneOne= new GameSceneOne();
             Scene scene = new Scene(fxmlLoader.load());
-            String uri = "file:"+HelloApplication.class.getResource("Aim.png").getPath();
+            String uri = "file:"+HelloApplication.class.getResource("Misc/Aim.png").getPath();
             Cursor cursorPersonalizado = Cursor.cursor(uri);
             scene.setCursor(cursorPersonalizado);
             stage.setTitle("NuclearThrone.exe");

@@ -63,7 +63,7 @@ public class GameSceneOne {
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
-        String uri = "file:" + HelloApplication.class.getResource("FLoorL1.png").getPath();
+        String uri = "file:" + HelloApplication.class.getResource("Misc/FLoorL1.png").getPath();
         backgroundImage = new Image(uri);
         canvas.setOnKeyPressed(this::handleKeyPressed);
         canvas.setOnKeyReleased(this::handleKeyReleased);
@@ -80,9 +80,9 @@ public class GameSceneOne {
 
         //De vida
         Image[] lifeImages = {
-                new Image("file:" + HelloApplication.class.getResource("2golpes.png").getPath()),   // Imagen para ultimo golpe
-                new Image("file:" + HelloApplication.class.getResource("1golpe.png").getPath()),   // Imagen para un  golpes
-                new Image("file:" + HelloApplication.class.getResource("fullVida.png").getPath())  // Imagen full de vida
+                new Image("file:" + HelloApplication.class.getResource("Life Bar/2golpes.png").getPath()),   // Imagen para ultimo golpe
+                new Image("file:" + HelloApplication.class.getResource("Life Bar/1golpe.png").getPath()),   // Imagen para un  golpes
+                new Image("file:" + HelloApplication.class.getResource("Life Bar/fullVida.png").getPath())  // Imagen full de vida
 
         };
 
@@ -93,12 +93,12 @@ public class GameSceneOne {
 
         //De balas
         Image[] bulletBarImages = {
-                new Image("file:" + HelloApplication.class.getResource("indicadorDebala0.png").getPath()),   // Imagen para no tener balas
-                new Image("file:" + HelloApplication.class.getResource("indicadordebala1.png").getPath()),   // 1 bala
-                new Image("file:" + HelloApplication.class.getResource("indicador2debala.png").getPath()),  // 2 balas
-                new Image("file:" + HelloApplication.class.getResource("indicadordebala3.png").getPath()),  // 3 balas
-                new Image("file:" + HelloApplication.class.getResource("indicadorDebala4.png").getPath()),  // 4 balas
-                new Image("file:" + HelloApplication.class.getResource("indicadorDebala5.png").getPath())  // full balas
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicadorDebala0.png").getPath()),   // Imagen para no tener balas
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicadordebala1.png").getPath()),   // 1 bala
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicador2debala.png").getPath()),  // 2 balas
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicadordebala3.png").getPath()),  // 3 balas
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicadorDebala4.png").getPath()),  // 4 balas
+                new Image("file:" + HelloApplication.class.getResource("Gun Bar/indicadorDebala5.png").getPath())  // full balas
         };
 
         bulletBar = new BulletBar(bulletBarImages,10,45);
@@ -239,7 +239,7 @@ public class GameSceneOne {
                 diff.setMag(4);
 
                 Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
-                Image image = new Image("file:" + HelloApplication.class.getResource("bulletLaser.png").getPath());
+                Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bulletLaser.png").getPath());
                 bullet.setImage(image);
 
                 levels.get(currentLevel).getBullets().add(bullet);
@@ -254,14 +254,6 @@ public class GameSceneOne {
             System.out.println("No weapon");
         }
     }
-
-
-
-
-
-
-
-
 
     private void draw() {
         Thread ae = new Thread(() -> {
@@ -486,7 +478,7 @@ public class GameSceneOne {
 
 
     public void drawParedes(int index) {
-        String path = "file:" + HelloApplication.class.getResource("ParedFill.png").getPath();
+        String path = "file:" + HelloApplication.class.getResource("Misc/ParedFill.png").getPath();
         int height = 600;
         int heighty=1020;
         int heightx = 30;

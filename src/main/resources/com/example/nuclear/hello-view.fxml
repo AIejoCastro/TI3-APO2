@@ -7,12 +7,12 @@
     <children>
         <ImageView fx:id="playBT" fitHeight="200" fitWidth="300">
             <image>
-                <Image url="@Play.png"/>
+                <Image url="@Misc/Play.png"/>
             </image>
         </ImageView>
         <ImageView fx:id="quitBT" fitHeight="200" fitWidth="300" layoutX="300">
             <image>
-                <Image url="@Quit.png"/>
+                <Image url="@Misc/Quit.png"/>
             </image>
         </ImageView>
     </children>

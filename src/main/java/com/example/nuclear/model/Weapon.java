@@ -79,7 +79,7 @@ public class Weapon extends Drawing {
 
 
         // Cargar la imagen del arma
-        Image image = new Image("file:" + HelloApplication.class.getResource("raygunEdit-removebg-preview.png").getPath());
+        Image image = new Image("file:" + HelloApplication.class.getResource("Guns/raygunEdit-removebg-preview.png").getPath());
 
 
 
@@ -97,7 +97,7 @@ public class Weapon extends Drawing {
     public void drawReload(GraphicsContext gc){
         if (reload) {
             System.out.println("awdadasdawd");
-            Image reloadingImage = new Image("file:" + HelloApplication.class.getResource("reload.png").getPath());
+            Image reloadingImage = new Image("file:" + HelloApplication.class.getResource("Misc/reload.png").getPath());
             double centerX = gc.getCanvas().getWidth() / 2 - reloadingImage.getWidth() / 2;
             double centerY = gc.getCanvas().getHeight() / 2 - reloadingImage.getHeight() / 2;
             gc.drawImage(reloadingImage, centerX, centerY);
