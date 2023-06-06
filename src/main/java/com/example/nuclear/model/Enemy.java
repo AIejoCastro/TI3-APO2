@@ -7,16 +7,22 @@ import javafx.scene.paint.Color;
 
 public class Enemy extends Drawing implements Runnable{
 
+    public Vector pos;
+
     public Enemy(Vector pos){
         this.pos = pos;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
-        gc.setStroke(Color.RED);
-        gc.fillRect(pos.getX(), pos.getY(), 10,10);
-        gc.strokeRect(pos.getX(), pos.getY(), 10,10);
+        Image image = new Image("file:" + HelloApplication.class.getResource("Enemy Rat/Idle Rat 1.png").getPath());
+
+        // Especificar el ancho y alto deseados
+        double width = 30;  // Ancho deseado
+        double height = 30; // Alto deseado
+
+        // Dibujar la imagen en el GraphicsContext con el tamaño especificado
+        gc.drawImage(image, pos.getX(), pos.getY(), width, height);
     }
 
     public boolean isAlive = true;
@@ -34,5 +40,13 @@ public class Enemy extends Drawing implements Runnable{
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public Vector getPos() {
+        return pos;
+    }
+
+    public void setPos(Vector pos) {
+        this.pos = pos;
     }
 }

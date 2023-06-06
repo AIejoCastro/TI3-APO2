@@ -422,16 +422,44 @@ public class GameSceneOne {
 
                 // Movement
                 if (Wpressed) {
-                    avatar.pos.setY(avatar.pos.getY() - 2);
+                    avatar.pos.setY(avatar.pos.getY() - 4);
+                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
+                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
+                    Vector diff = new Vector(diffX, diffY);
+                    diff.normalize();
+                    diff.setMag(4);
+
+                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Apressed) {
-                    avatar.pos.setX(avatar.pos.getX() - 2);
+                    avatar.pos.setX(avatar.pos.getX() - 4);
+                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
+                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
+                    Vector diff = new Vector(diffX, diffY);
+                    diff.normalize();
+                    diff.setMag(4);
+
+                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Spressed) {
-                    avatar.pos.setY(avatar.pos.getY() + 2);
+                    avatar.pos.setY(avatar.pos.getY() + 4);
+                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
+                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
+                    Vector diff = new Vector(diffX, diffY);
+                    diff.normalize();
+                    diff.setMag(4);
+
+                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Dpressed) {
-                    avatar.pos.setX(avatar.pos.getX() + 2);
+                    avatar.pos.setX(avatar.pos.getX() + 4);
+                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
+                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
+                    Vector diff = new Vector(diffX, diffY);
+                    diff.normalize();
+                    diff.setMag(4);
+
+                    level.getEnemies().get(0).setPos(diff);
                 }
 
                 try {
