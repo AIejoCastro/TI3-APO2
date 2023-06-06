@@ -309,6 +309,7 @@ public class GameSceneOne {
 
                 // Geometric calculations
 
+
                 // Paredes
                 if (avatar.pos.getX() < 25) {
                     avatar.pos.setX(25);
@@ -329,16 +330,16 @@ public class GameSceneOne {
                     // Colisión detectada, realiza las acciones correspondientes
                     // Por ejemplo, puedes detener el movimiento del avatar o mostrar un mensaje
                     if (Wpressed){
-                        avatar.pos.setY(avatar.pos.getY() + 5);
+                        avatar.pos.setY(avatar.pos.getY() + 4);
                     }
                     if (Apressed) {
-                        avatar.pos.setX(avatar.pos.getX() + 5);
+                        avatar.pos.setX(avatar.pos.getX() + 4);
                     }
                     if (Spressed) {
-                        avatar.pos.setY(avatar.pos.getY() - 5);
+                        avatar.pos.setY(avatar.pos.getY() - 4);
                     }
                     if (Dpressed) {
-                        avatar.pos.setX(avatar.pos.getX() - 5);
+                        avatar.pos.setX(avatar.pos.getX() - 4);
                     }
                 }
 
@@ -405,46 +406,34 @@ public class GameSceneOne {
                     }
                 }
 
+                for (int i = 0; i < level.getEnemies().size(); i++) {
+                    double enemyX = level.getEnemies().get(i).pos.getX();
+                    double enemyY = level.getEnemies().get(i).pos.getY();
+                    double playerX = avatar.pos.getX();
+                    double playerY = avatar.pos.getY();
+
+                    double diffX = playerX - enemyX;
+                    double diffY = playerY - enemyY;
+                    Vector diff = new Vector(diffX, diffY);
+                    diff.normalize();
+                    diff.setMag(3);
+
+                    level.getEnemies().get(i).pos.setX(enemyX + diff.getX());
+                    level.getEnemies().get(i).pos.setY(enemyY + diff.getY());
+                }
+
                 // Movement
                 if (Wpressed) {
                     avatar.pos.setY(avatar.pos.getY() - 4);
-                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
-                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
-                    Vector diff = new Vector(diffX, diffY);
-                    diff.normalize();
-                    diff.setMag(4);
-
-                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Apressed) {
                     avatar.pos.setX(avatar.pos.getX() - 4);
-                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
-                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
-                    Vector diff = new Vector(diffX, diffY);
-                    diff.normalize();
-                    diff.setMag(4);
-
-                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Spressed) {
                     avatar.pos.setY(avatar.pos.getY() + 4);
-                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
-                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
-                    Vector diff = new Vector(diffX, diffY);
-                    diff.normalize();
-                    diff.setMag(4);
-
-                    level.getEnemies().get(0).setPos(diff);
                 }
                 if (Dpressed) {
                     avatar.pos.setX(avatar.pos.getX() + 4);
-                    double diffX = avatar.pos.getX() - level.getEnemies().get(0).pos.getX();
-                    double diffY = avatar.pos.getY() - level.getEnemies().get(0).pos.getY();
-                    Vector diff = new Vector(diffX, diffY);
-                    diff.normalize();
-                    diff.setMag(4);
-
-                    level.getEnemies().get(0).setPos(diff);
                 }
 
                 try {
