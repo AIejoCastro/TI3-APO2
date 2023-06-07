@@ -11,7 +11,6 @@ public class HelloController {
     private BorderPane miAnchorPane;
     @FXML
     private Canvas canvas;
-
     @FXML
     private ImageView playBT;
     @FXML
