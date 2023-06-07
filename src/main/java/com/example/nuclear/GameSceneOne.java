@@ -312,13 +312,17 @@ public class GameSceneOne {
                     for (int i = 0; i < level.getBullets().size(); i++) {
                         level.getBullets().get(i).draw(gc);
                         if (isOutside(level.getBullets().get(i).pos.getX(), level.getBullets().get(i).pos.getY())) {
-                            level.getBullets().remove(i);
+                            if (!level.getBullets().isEmpty()) {
+                                level.getBullets().remove(i);
+                            }
                         }
                     }
                     for (int i = 0; i < level.getThrowGranades().size(); i++) {
                         level.getThrowGranades().get(i).draw(gc);
                         if (isOutside(level.getThrowGranades().get(i).getPos().getX(), level.getThrowGranades().get(i).getPos().getY())) {
-                            level.getThrowGranades().remove(i);
+                            if (!level.getThrowGranades().isEmpty()) {
+                                level.getThrowGranades().remove(i);
+                            }
                         }
                     }
                     for (int i = 0; i < level.getEnemies().size(); i++) {
@@ -382,7 +386,9 @@ public class GameSceneOne {
 
 
                 //Colisiones con paredes
-
+                for (Paredes wall: level.getParedes()) {
+                    collisionParedesAvatar(wall);
+                }
 
 
 
@@ -637,29 +643,33 @@ public class GameSceneOne {
         ae.start();
     }
     private void collisionParedesAvatar(Paredes paredes) {
-        double diffX=avatar.pos.getX() -paredes.getX();
-        double diffY=avatar.pos.getY() -paredes.getY();
-        if((diffX> (-avatar.getWidth()) && diffX< paredes.getWidth()) && (diffY> (-avatar.getHeight()) && diffY< paredes.getHeight()) ){
-            double diffSup= Math.abs(diffY+ avatar.getHeight());
-            double diffBottom= Math.abs(diffY - paredes.getHeight());
-            double diffRight= Math.abs(diffX - paredes.getWidth());
-            double diffLeft= Math.abs(diffX+ avatar.getWidth());
-            if (diffSup < 5){
-                avatar.pos.setY(avatar.pos.getY()-5);
-            }
-            if (diffBottom < 5){
-                avatar.pos.setY(avatar.pos.getY()+5);
-            }
-            if (diffRight < 5){
-                avatar.pos.setX(avatar.pos.getX()+5);
-            }
-            if (diffLeft < 5){
-                avatar.pos.setX(avatar.pos.getX()-5);
-            }
+        Rectangle avatarBoundary = new Rectangle(avatar.pos.getX() - 25, avatar.pos.getY() - 25, 50, 50);
 
+        if (avatarBoundary.intersects(paredes.getBoundary().getBoundsInLocal())) {
+            double diffX = avatar.pos.getX() - paredes.getX();
+            double diffY = avatar.pos.getY() - paredes.getY();
 
+            double diffSup = Math.abs(diffY + avatarBoundary.getHeight());
+            double diffBottom = Math.abs(diffY - paredes.getHeight());
+            double diffRight = Math.abs(diffX - paredes.getWidth());
+            double diffLeft = Math.abs(diffX + avatarBoundary.getWidth());
+
+            if (diffSup < 5) {
+                avatar.pos.setY(avatar.pos.getY() - 5);
+            }
+            if (diffBottom < 5) {
+                avatar.pos.setY(avatar.pos.getY() + 5);
+            }
+            if (diffRight < 5) {
+                avatar.pos.setX(avatar.pos.getX() + 5);
+            }
+            if (diffLeft < 5) {
+                avatar.pos.setX(avatar.pos.getX() - 5);
+            }
         }
     }
+
+
 
 
     public static double getGroundLevel() {
