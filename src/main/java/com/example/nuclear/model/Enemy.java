@@ -1,10 +1,8 @@
 package com.example.nuclear.model;
 
 import com.example.nuclear.GameSceneOne;
-import com.example.nuclear.HelloApplication;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Enemy extends Drawing implements Runnable{
 
@@ -12,6 +10,7 @@ public class Enemy extends Drawing implements Runnable{
     public Vector pos;
     private int imageIndex = 0;
     private Image[] run;
+    private int bulletsReceived;
 
     public Enemy(Vector pos){
         this.pos = pos;
@@ -37,8 +36,6 @@ public class Enemy extends Drawing implements Runnable{
         double height = 50; // Alto deseado
 
         gc.drawImage(run[imageIndex], isFacingRight ? pos.getX() - 25 : pos.getX() + 25, pos.getY() - 25, isFacingRight ? 50 : -50, 50);
-
-        // Dibujar la imagen en el GraphicsContext con el tamaño especificado
     }
 
     public boolean isAlive = true;
@@ -68,5 +65,13 @@ public class Enemy extends Drawing implements Runnable{
 
     public void setFacingRight(boolean facingRight) {
         isFacingRight = facingRight;
+    }
+
+    public int getBulletsReceived() {
+        return bulletsReceived;
+    }
+
+    public void setBulletsReceived(int bulletsReceived) {
+        this.bulletsReceived = bulletsReceived;
     }
 }

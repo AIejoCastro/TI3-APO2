@@ -31,6 +31,7 @@ public class Avatar extends Drawing implements Runnable {
     private int lives;
     private Weapon weapon;
     private Grenade grenade;
+    private int bitesReceived;
 
     public Avatar() {
         run = new Image[6];
@@ -126,6 +127,14 @@ public class Avatar extends Drawing implements Runnable {
             String imagePath = "file:" + HelloApplication.class.getResource(imagePaths[i]).getPath();
             grenadeImages[i] = new Image(imagePath);
         }
+    }
+
+    public int getBitesReceived() {
+        return bitesReceived;
+    }
+
+    public void setBitesReceived(int bitesReceived) {
+        this.bitesReceived = bitesReceived;
     }
 
     @Override

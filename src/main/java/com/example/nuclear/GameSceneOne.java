@@ -457,16 +457,37 @@ public class GameSceneOne {
                         Enemy en = level.getEnemies().get(j);
 
                         double distance = Math.sqrt(
-                                Math.pow(en.pos.getX() - bn.pos.getX(), 2) +
-                                        Math.pow(en.pos.getY() - bn.pos.getY(), 2)
+                                Math.pow(en.pos.getX() - bn.pos.getX(), 2) + Math.pow(en.pos.getY() - bn.pos.getY(), 2)
                         );
 
-                        if (distance < 5) {
+                        if (distance < 25) {
+                            en.setBulletsReceived(en.getBulletsReceived() + 1);
                             level.getBullets().remove(i);
-                            level.getEnemies().remove(j);
+                            if (en.getBulletsReceived() == 3) {
+                                level.getEnemies().remove(j);
+                            }
                         }
                     }
                 }
+
+                for (int j = 0; j < level.getEnemies().size(); j++) {
+                    Enemy en = level.getEnemies().get(j);
+
+                    double distance = Math.sqrt(
+                            Math.pow(en.pos.getX() - avatar.pos.getX(), 2) + Math.pow(en.pos.getY() - avatar.pos.getY(), 2)
+                    );
+
+                    if (distance < 25) {
+                        avatar.setBitesReceived(avatar.getBitesReceived() + 1);
+                        lifeBar.decreaseLife();
+                        Vector pos = new Vector(en.pos.getX() + 50, en.pos.getY() + 50);
+                        en.setPos(pos);
+                        if (avatar.getBitesReceived() == 3) {
+                            //Acaba el juego
+                        }
+                    }
+                }
+
 
                 for (int i = 0; i < level.getThrowGranades().size(); i++) {
                     ThrowGrenade bn = level.getThrowGranades().get(i);
@@ -477,10 +498,13 @@ public class GameSceneOne {
                                 Math.pow(en.pos.getX() - bn.getPos().getX(), 2) + Math.pow(en.pos.getY() - bn.getPos().getY(), 2)
                         );
 
-                        if (distance < 5) {
+                        if (distance < 25) {
+                            en.setBulletsReceived(en.getBulletsReceived() + 1);
                             level.getThrowGranades().remove(i);
                             bn.drawExplotion(gc);
-                            level.getEnemies().remove(j);
+                            if (en.getBulletsReceived() == 3) {
+                                level.getEnemies().remove(j);
+                            }
                         }
                     }
                 }
