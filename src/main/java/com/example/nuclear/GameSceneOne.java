@@ -26,14 +26,14 @@ public class GameSceneOne {
     @FXML
     private AnchorPane fondoNivel;
     private GraphicsContext gc;
-
+    private static final double GROUND_LEVEL = 500.0;
     private ArrayList<Level> levels;
     private int currentLevel = 0;
 
     Image backgroundImage;
 
     private int shotsFired=0;
-
+    private GrenadeBar granadeBar;
     private boolean isAlive = true;
     private boolean Apressed = false;
     private boolean Wpressed = false;
@@ -100,7 +100,7 @@ public class GameSceneOne {
         };
 
         bulletBar = new BulletBar(bulletBarImages,10,45);
-
+        granadeBar = new GrenadeBar(10,60);
 
         // Generate the first map
         Level l1 = new Level(0);
@@ -254,26 +254,52 @@ public class GameSceneOne {
         if (avatar.getWeapon() != null && shotsFired<5) {
 
 
+            double diffX = e.getX() - avatar.pos.getX();
+            double diffY = e.getY() - avatar.pos.getY();
+            Vector diff = new Vector(diffX, diffY);
+            diff.normalize();
+            diff.setMag(7);
 
-                double diffX = e.getX() - avatar.pos.getX();
-                double diffY = e.getY() - avatar.pos.getY();
-                Vector diff = new Vector(diffX, diffY);
-                diff.normalize();
-                diff.setMag(6);
+            Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
+            Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bulletLaser.png").getPath());
+            bullet.setImage(image);
 
-                Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
-                Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bulletLaser.png").getPath());
-                bullet.setImage(image);
+            levels.get(currentLevel).getBullets().add(bullet);
+            shotsFired++;
+            System.out.println("shots fired " + shotsFired);
+            avatar.getWeapon().shoot();
 
-                levels.get(currentLevel).getBullets().add(bullet);
-                shotsFired++;
-                System.out.println("shots fired "+shotsFired);
-                avatar.getWeapon().shoot();
+            //disminuir del indicador
+            bulletBar.decreaseBullet();
+        }
+        else if(avatar.getGrenade()!= null){
 
-                //disminuir del indicador
-                bulletBar.decreaseBullet();
 
-        } else {
+            double diffX = e.getX() - avatar.pos.getX();
+            double diffY = e.getY() - avatar.pos.getY();
+            VectorToGrenade diff = new VectorToGrenade(diffX, diffY);
+            diff.normalize();
+            double speed = 4.0; // Velocidad deseada
+            diff.multiply(speed);
+
+            ThrowGrenade grenade = new ThrowGrenade(new VectorToGrenade(avatar.pos.getX(), avatar.pos.getY()),diff);
+            Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bombita.png").getPath());
+            grenade.setImage(image);
+
+            levels.get(currentLevel).getThrowGranades().add(grenade);
+
+
+
+
+            // avatar.getGrenade().shootGranade();
+
+            //disminuir del indicador
+            System.out.println("granada disparada");
+
+            //Desequipar granada
+            avatar.unequipGrenade();
+
+        }else {
             System.out.println("No weapon");
         }
     }
@@ -296,6 +322,12 @@ public class GameSceneOne {
                         level.getBullets().get(i).draw(gc);
                         if (isOutside(level.getBullets().get(i).pos.getX(), level.getBullets().get(i).pos.getY())) {
                             level.getBullets().remove(i);
+                        }
+                    }
+                    for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                        level.getThrowGranades().get(i).draw(gc);
+                        if (isOutside(level.getThrowGranades().get(i).getPos().getX(), level.getThrowGranades().get(i).getPos().getY())) {
+                            level.getThrowGranades().remove(i);
                         }
                     }
                     for (int i = 0; i < level.getEnemies().size(); i++) {
@@ -325,6 +357,11 @@ public class GameSceneOne {
                     //barra de armas
                     if(avatar.getWeapon()!=null){
                         bulletBar.draw(gc);
+                    }
+
+                    if(avatar.getGrenade()!=null){
+                        granadeBar.draw(gc);
+
                     }
 
                         ///reload
@@ -431,6 +468,88 @@ public class GameSceneOne {
                     }
                 }
 
+                for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                    ThrowGrenade bn = level.getThrowGranades().get(i);
+                    for (int j = 0; j < level.getEnemies().size(); j++) {
+                        Enemy en = level.getEnemies().get(j);
+
+                        double distance = Math.sqrt(
+                                Math.pow(en.pos.getX() - bn.getPos().getX(), 2) + Math.pow(en.pos.getY() - bn.getPos().getY(), 2)
+                        );
+
+                        if (distance < 5) {
+                            level.getThrowGranades().remove(i);
+                            bn.drawExplotion(gc);
+                            level.getEnemies().remove(j);
+                        }
+                    }
+                }
+
+                /*
+
+                          for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                    ThrowGranade granade = level.getThrowGranades().get(i);
+                    granade.update(); // Actualizar la posición de la granada
+
+                    // Verificar si la granada ha explotado
+                    if (granade.isExploded()) {
+                        Enemy enemy=granade.explode(level.getEnemies()); // Realizar la explosión y eliminar enemigos si corresponde
+                        level.getThrowGranades().remove(i); // Eliminar la granada del nivel
+                        if(enemy!=null){
+                            level.getEnemies().remove(enemy);
+                        }
+                        granade.drawExplotion(gc);
+                        i--; // Decrementar el índice después de eliminar una granada
+                    }
+
+                }
+                 */
+
+
+
+
+                 /*
+                  for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                                      ThrowGranade bn = level.getThrowGranades().get(i);
+
+                                      for (int j = 0; j < level.getEnemies().size(); j++) {
+                                          Enemy en = level.getEnemies().get(j);
+
+                                         double distance = Math.sqrt(
+                                                 Math.pow(en.pos.getX() - bn.getPos().getX(), 2) +
+                                                          Math.pow(en.pos.getY() - bn.getPos().getY(), 2)
+                                          );
+
+                                          if (distance < 5) {
+                                              level.getThrowGranades().remove(i);
+                                              bn.drawExplotion(gc);
+                                              level.getEnemies().remove(j);
+                                          }
+                                      }
+                                  }
+                /*
+
+
+                /*
+                for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                    ThrowGranade granade = level.getThrowGranades().get(i);
+                    granade.update(); // Actualizar la posición de la granada
+
+
+                    // Verificar si la granada ha explotado
+                    if (granade.isExploded()) {
+                        for (int j = 0; j < level.getEnemies().size(); j++) {
+                            Enemy en = level.getEnemies().get(j);
+                                if(granade.hasCollidedWithEnemy(en)){
+                                    level.getEnemies().remove(en);
+                                }
+                        }
+                    }
+                }
+
+                 */
+                //aqui va lo de la granada
+
                 //Los enemigos te persiguen
                 for (int i = 0; i < level.getEnemies().size(); i++) {
                     double enemyX = level.getEnemies().get(i).pos.getX();
@@ -476,6 +595,10 @@ public class GameSceneOne {
 
     public void checkCollisions(){
         return;
+    }
+
+    public static double getGroundLevel() {
+        return GROUND_LEVEL;
     }
 
     public boolean isOutside(double x, double y) {

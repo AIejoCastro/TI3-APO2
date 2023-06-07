@@ -20,6 +20,7 @@ public class Level {
 
     private ArrayList<Grenade> grenadesInTheFloor;
     private ArrayList<Weapon> weaponsInTheFloor;
+    private ArrayList<ThrowGrenade> throwGrenades;
 
     public Level(int id){
         this.id = id;
@@ -33,6 +34,7 @@ public class Level {
         paredes = new ArrayList<>();
         weaponsInTheFloor = new ArrayList<>();
         grenadesInTheFloor= new ArrayList<>();
+        throwGrenades = new ArrayList<>();
     }
 
 
@@ -128,5 +130,13 @@ public class Level {
 
     public void setParedes(ArrayList<Paredes> paredes) {
         this.paredes = paredes;
+    }
+
+    public ArrayList<ThrowGrenade> getThrowGranades() {
+        return throwGrenades;
+    }
+
+    public void setThrowGranades(ArrayList<ThrowGrenade> throwGranades) {
+        this.throwGrenades = throwGranades;
     }
 }
