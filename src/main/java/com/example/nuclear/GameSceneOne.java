@@ -104,10 +104,23 @@ public class GameSceneOne {
 
         // Generate the first map
         Level l1 = new Level(0);
-        Enemy e = new Enemy(new Vector(400, 100));
+        double randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        double randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        Enemy e = new Enemy(new Vector(randomNumberWidth, randomNumberHeight));
         new Thread(e).start();
         l1.getEnemies().add(e);
-        l1.getEnemies().add(new Enemy(new Vector(400, 300)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l1.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l1.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l1.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l1.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
         levels.add(l1);
 
 
@@ -134,9 +147,21 @@ public class GameSceneOne {
         // Generate the second map
         Level l2 = new Level(1);
         l2.setColor(Color.GRAY);
-        l2.getEnemies().add(new Enemy(new Vector(100, 100)));
-        l2.getEnemies().add(new Enemy(new Vector(100, 300)));
-        l2.getEnemies().add(new Enemy(new Vector(300, 300)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
         levels.add(l2);
         drawParedes(0);
         drawParedes(1);
@@ -406,6 +431,7 @@ public class GameSceneOne {
                     }
                 }
 
+                //Los enemigos te persiguen
                 for (int i = 0; i < level.getEnemies().size(); i++) {
                     double enemyX = level.getEnemies().get(i).pos.getX();
                     double enemyY = level.getEnemies().get(i).pos.getY();

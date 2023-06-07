@@ -18,8 +18,8 @@ public class Enemy extends Drawing implements Runnable{
         Image image = new Image("file:" + HelloApplication.class.getResource("Enemy Rat/Idle Rat 1.png").getPath());
 
         // Especificar el ancho y alto deseados
-        double width = 30;  // Ancho deseado
-        double height = 30; // Alto deseado
+        double width = 50;  // Ancho deseado
+        double height = 50; // Alto deseado
 
         // Dibujar la imagen en el GraphicsContext con el tamaño especificado
         gc.drawImage(image, pos.getX(), pos.getY(), width, height);
