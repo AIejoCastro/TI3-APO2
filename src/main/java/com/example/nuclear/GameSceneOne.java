@@ -326,6 +326,7 @@ public class GameSceneOne {
                     }
                     for (int i = 0; i < level.getParedes().size(); i++) {
                         level.getParedes().get(i).draw(gc);
+                 //       collisionParedesAvatar(level.getParedes().get(i));
                     }
 
                     //Armas en el suelo
@@ -379,26 +380,11 @@ public class GameSceneOne {
                 }
 
 
-                /*
-                //Colisiones con paredes
-                if (avatar.collidesWithWalls(levels.get(currentLevel).getParedes())) {
-                    // Colisión detectada, realiza las acciones correspondientes
-                    // Por ejemplo, puedes detener el movimiento del avatar o mostrar un mensaje
-                    if (Wpressed){
-                        avatar.pos.setY(avatar.pos.getY() + 4);
-                    }
-                    if (Apressed) {
-                        avatar.pos.setX(avatar.pos.getX() + 4);
-                    }
-                    if (Spressed) {
-                        avatar.pos.setY(avatar.pos.getY() - 4);
-                    }
-                    if (Dpressed) {
-                        avatar.pos.setX(avatar.pos.getX() - 4);
-                    }
-                }
 
-                 */
+                //Colisiones con paredes
+
+
+
 
                 // Dentro del bucle de dibujo en el método draw()
                 for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
@@ -650,10 +636,31 @@ public class GameSceneOne {
         ae.setDaemon(true); // Establecer como daemon para que se detenga cuando se cierre la aplicación
         ae.start();
     }
+    private void collisionParedesAvatar(Paredes paredes) {
+        double diffX=avatar.pos.getX() -paredes.getX();
+        double diffY=avatar.pos.getY() -paredes.getY();
+        if((diffX> (-avatar.getWidth()) && diffX< paredes.getWidth()) && (diffY> (-avatar.getHeight()) && diffY< paredes.getHeight()) ){
+            double diffSup= Math.abs(diffY+ avatar.getHeight());
+            double diffBottom= Math.abs(diffY - paredes.getHeight());
+            double diffRight= Math.abs(diffX - paredes.getWidth());
+            double diffLeft= Math.abs(diffX+ avatar.getWidth());
+            if (diffSup < 5){
+                avatar.pos.setY(avatar.pos.getY()-5);
+            }
+            if (diffBottom < 5){
+                avatar.pos.setY(avatar.pos.getY()+5);
+            }
+            if (diffRight < 5){
+                avatar.pos.setX(avatar.pos.getX()+5);
+            }
+            if (diffLeft < 5){
+                avatar.pos.setX(avatar.pos.getX()-5);
+            }
 
-    public void checkCollisions(){
-        return;
+
+        }
     }
+
 
     public static double getGroundLevel() {
         return GROUND_LEVEL;

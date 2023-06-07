@@ -250,4 +250,10 @@ public class Avatar extends Drawing implements Runnable {
     public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
     }
+    public double getHeight() {
+        return rectangle.getHeight();
+    }
+    public double getWidth() {
+        return rectangle.getWidth();
+    }
 }
