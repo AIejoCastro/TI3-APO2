@@ -259,7 +259,7 @@ public class GameSceneOne {
                 double diffY = e.getY() - avatar.pos.getY();
                 Vector diff = new Vector(diffX, diffY);
                 diff.normalize();
-                diff.setMag(4);
+                diff.setMag(6);
 
                 Bullet bullet = new Bullet(new Vector(avatar.pos.getX(), avatar.pos.getY()), diff);
                 Image image = new Image("file:" + HelloApplication.class.getResource("Guns/bulletLaser.png").getPath());
