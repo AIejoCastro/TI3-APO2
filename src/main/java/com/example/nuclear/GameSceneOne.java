@@ -481,7 +481,7 @@ public class GameSceneOne {
                     Enemy bn = level.getEnemies().get(i);
                     for (int j = 0; j < level.getEnemies().size(); j++) {
                         if (j == i) {
-                            break;
+                            continue;
                         }
                         Enemy en = level.getEnemies().get(j);
 
@@ -490,11 +490,18 @@ public class GameSceneOne {
                         );
 
                         if (distance < 25) {
-                            Vector pos = new Vector(en.pos.getX() + 5, en.pos.getY() + 5);
-                            en.setPos(pos);
+                            double angle = Math.atan2(en.pos.getY() - bn.pos.getY(), en.pos.getX() - bn.pos.getX());
+                            double offsetX = Math.cos(angle) * 5;
+                            double offsetY = Math.sin(angle) * 5;
+
+                            Vector vector1 = new Vector(bn.pos.getX() - offsetX, bn.pos.getY() - offsetY);
+                            Vector vector2 = new Vector(en.pos.getX() + offsetX, en.pos.getY() + offsetY);
+                            bn.setPos(vector1);
+                            en.setPos(vector2);
                         }
                     }
                 }
+
 
                 //Colision de enemigos con el jugador
                 for (int j = 0; j < level.getEnemies().size(); j++) {

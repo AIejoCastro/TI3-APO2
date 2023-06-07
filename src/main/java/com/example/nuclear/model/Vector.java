@@ -37,4 +37,22 @@ public class Vector {
         this.x *= scalar;
         this.y *= scalar;
     }
+
+    public Vector add(Vector other) {
+        double newX = this.x + other.x;
+        double newY = this.y + other.y;
+        return new Vector(newX, newY);
+    }
+
+    public Vector subtract(Vector other) {
+        double newX = this.x - other.x;
+        double newY = this.y - other.y;
+        return new Vector(newX, newY);
+    }
+
+    public Vector multiply(double scalar) {
+        double newX = this.x * scalar;
+        double newY = this.y * scalar;
+        return new Vector(newX, newY);
+    }
 }
