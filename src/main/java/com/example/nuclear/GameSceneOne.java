@@ -550,6 +550,12 @@ public class GameSceneOne {
                  */
                 //aqui va lo de la granada
 
+                //Enemigos a donde miran
+                for (int i = 0; i < levels.get(currentLevel).getEnemies().size(); i++) {
+                    double relativePosition = avatar.pos.getX() - levels.get(currentLevel).getEnemies().get(i).pos.getX();
+                    levels.get(currentLevel).getEnemies().get(i).setFacingRight(relativePosition > 0);
+                }
+
                 //Los enemigos te persiguen
                 for (int i = 0; i < level.getEnemies().size(); i++) {
                     double enemyX = level.getEnemies().get(i).pos.getX();
@@ -563,6 +569,7 @@ public class GameSceneOne {
                     diff.normalize();
                     diff.setMag(3);
 
+                    level.getEnemies().get(i).changeImage();
                     level.getEnemies().get(i).pos.setX(enemyX + diff.getX());
                     level.getEnemies().get(i).pos.setY(enemyY + diff.getY());
                 }

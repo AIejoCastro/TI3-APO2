@@ -1,5 +1,6 @@
 package com.example.nuclear.model;
 
+import com.example.nuclear.GameSceneOne;
 import com.example.nuclear.HelloApplication;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -7,22 +8,37 @@ import javafx.scene.paint.Color;
 
 public class Enemy extends Drawing implements Runnable{
 
+    private boolean isFacingRight = true;
     public Vector pos;
+    private int imageIndex = 0;
+    private Image[] run;
 
     public Enemy(Vector pos){
         this.pos = pos;
+        run = new Image[4];
+        for (int i = 1; i <= 4; i++) {
+            String uri = "file:" + GameSceneOne.class.getResource("Enemy Rat/Walk Rat " + i + ".png").getPath();
+            run[i - 1] = new Image(uri);
+        }
+    }
+
+    public void changeImage() {
+        // Change the image index and load the corresponding image
+        imageIndex++;
+        if (imageIndex >= run.length) {
+            imageIndex = 0;
+        }
     }
 
     @Override
     public void draw(GraphicsContext gc) {
-        Image image = new Image("file:" + HelloApplication.class.getResource("Enemy Rat/Idle Rat 1.png").getPath());
-
         // Especificar el ancho y alto deseados
         double width = 50;  // Ancho deseado
         double height = 50; // Alto deseado
 
+        gc.drawImage(run[imageIndex], isFacingRight ? pos.getX() - 25 : pos.getX() + 25, pos.getY() - 25, isFacingRight ? 50 : -50, 50);
+
         // Dibujar la imagen en el GraphicsContext con el tamaño especificado
-        gc.drawImage(image, pos.getX(), pos.getY(), width, height);
     }
 
     public boolean isAlive = true;
@@ -48,5 +64,9 @@ public class Enemy extends Drawing implements Runnable{
 
     public void setPos(Vector pos) {
         this.pos = pos;
+    }
+
+    public void setFacingRight(boolean facingRight) {
+        isFacingRight = facingRight;
     }
 }
