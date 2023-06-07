@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameSceneOne {
@@ -399,18 +400,6 @@ public class GameSceneOne {
 
                  */
 
-                for (int i = 0; i < level.getParedes().size(); i++) {
-                    Paredes wall = level.getParedes().get(i);
-                    double distance = Math.sqrt(
-                            Math.pow(avatar.pos.getX() - wall.pos.getX(), 2) + Math.pow(avatar.pos.getY() - wall.pos.getY(), 2)
-                    );
-
-                    if (distance < 20) {
-                        avatar.pos.setX(avatar.pos.getX() + 25);
-                        avatar.pos.setY(avatar.pos.getY() + 25);
-                    }
-                }
-
                 // Dentro del bucle de dibujo en el método draw()
                 for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
                     Weapon arma = level.getWeaponsInTheFloor().get(i);
@@ -468,7 +457,9 @@ public class GameSceneOne {
 
                         if (distance < 25) {
                             en.setBulletsReceived(en.getBulletsReceived() + 1);
-                            level.getBullets().remove(i);
+                            if (!level.getBullets().isEmpty()) {
+                                level.getBullets().remove(i);
+                            }
                             if (en.getBulletsReceived() == 3) {
                                 level.getEnemies().remove(j);
                             }
@@ -491,8 +482,8 @@ public class GameSceneOne {
 
                         if (distance < 25) {
                             double angle = Math.atan2(en.pos.getY() - bn.pos.getY(), en.pos.getX() - bn.pos.getX());
-                            double offsetX = Math.cos(angle) * 5;
-                            double offsetY = Math.sin(angle) * 5;
+                            double offsetX = Math.cos(angle) * 1;
+                            double offsetY = Math.sin(angle) * 1;
 
                             Vector vector1 = new Vector(bn.pos.getX() - offsetX, bn.pos.getY() - offsetY);
                             Vector vector2 = new Vector(en.pos.getX() + offsetX, en.pos.getY() + offsetY);
@@ -512,9 +503,12 @@ public class GameSceneOne {
                     );
 
                     if (distance < 25) {
+                        double angle = Math.atan2(en.pos.getY() - avatar.pos.getY(), en.pos.getX() - avatar.pos.getX());
+                        double offsetX = Math.cos(angle) * 40;
+                        double offsetY = Math.sin(angle) * 40;
                         avatar.setBitesReceived(avatar.getBitesReceived() + 1);
                         lifeBar.decreaseLife();
-                        Vector pos = new Vector(en.pos.getX() + 50, en.pos.getY() + 50);
+                        Vector pos = new Vector(en.pos.getX() + offsetX, en.pos.getY() + offsetY);
                         en.setPos(pos);
                         if (avatar.getBitesReceived() == 3) {
                             //Acaba el juego
@@ -656,7 +650,6 @@ public class GameSceneOne {
         ae.setDaemon(true); // Establecer como daemon para que se detenga cuando se cierre la aplicación
         ae.start();
     }
-
 
     public void checkCollisions(){
         return;
