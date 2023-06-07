@@ -53,6 +53,9 @@ public class Avatar extends Drawing implements Runnable {
         animationThread = new Thread(this);
         animationThread.setDaemon(true);
         animationThread.start();
+        double x=  pos.getX();
+        double y =pos.getY();
+        rectangle = new Rectangle(x - 20, y - 20, 40, 40);
 
         lives = 3;
     }
