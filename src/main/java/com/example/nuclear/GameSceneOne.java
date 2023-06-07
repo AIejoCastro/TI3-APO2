@@ -147,21 +147,11 @@ public class GameSceneOne {
         // Generate the second map
         Level l2 = new Level(1);
         l2.setColor(Color.GRAY);
-        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
-        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
-        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
-        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
-        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
-        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
-        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
-        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
-        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
-        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
-        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
-        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
-        randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
-        randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
-        l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        for (int i = 0; i < 49; i++) {
+            randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+            randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+            l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        }
         levels.add(l2);
         drawParedes(0);
         drawParedes(1);
@@ -387,6 +377,8 @@ public class GameSceneOne {
                     avatar.pos.setY(canvas.getHeight());
                 }
 
+
+                /*
                 //Colisiones con paredes
                 if (avatar.collidesWithWalls(levels.get(currentLevel).getParedes())) {
                     // Colisión detectada, realiza las acciones correspondientes
@@ -405,7 +397,21 @@ public class GameSceneOne {
                     }
                 }
 
-                /// Dentro del bucle de dibujo en el método draw()
+                 */
+
+                for (int i = 0; i < level.getParedes().size(); i++) {
+                    Paredes wall = level.getParedes().get(i);
+                    double distance = Math.sqrt(
+                            Math.pow(avatar.pos.getX() - wall.pos.getX(), 2) + Math.pow(avatar.pos.getY() - wall.pos.getY(), 2)
+                    );
+
+                    if (distance < 20) {
+                        avatar.pos.setX(avatar.pos.getX() + 25);
+                        avatar.pos.setY(avatar.pos.getY() + 25);
+                    }
+                }
+
+                // Dentro del bucle de dibujo en el método draw()
                 for (int i = 0; i < level.getWeaponsInTheFloor().size(); i++) {
                     Weapon arma = level.getWeaponsInTheFloor().get(i);
 
@@ -470,6 +476,27 @@ public class GameSceneOne {
                     }
                 }
 
+                //Colsion de enemigos con enemigos
+                for (int i = 0; i < level.getEnemies().size(); i++) {
+                    Enemy bn = level.getEnemies().get(i);
+                    for (int j = 0; j < level.getEnemies().size(); j++) {
+                        if (j == i) {
+                            break;
+                        }
+                        Enemy en = level.getEnemies().get(j);
+
+                        double distance = Math.sqrt(
+                                Math.pow(en.pos.getX() - bn.pos.getX(), 2) + Math.pow(en.pos.getY() - bn.pos.getY(), 2)
+                        );
+
+                        if (distance < 25) {
+                            Vector pos = new Vector(en.pos.getX() + 5, en.pos.getY() + 5);
+                            en.setPos(pos);
+                        }
+                    }
+                }
+
+                //Colision de enemigos con el jugador
                 for (int j = 0; j < level.getEnemies().size(); j++) {
                     Enemy en = level.getEnemies().get(j);
 
