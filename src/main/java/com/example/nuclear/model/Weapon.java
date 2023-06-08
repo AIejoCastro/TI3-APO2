@@ -3,6 +3,7 @@ package com.example.nuclear.model;
 import com.example.nuclear.HelloApplication;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

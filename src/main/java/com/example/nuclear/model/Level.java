@@ -38,32 +38,14 @@ public class Level {
     }
 
 
-    public void generarArmaAleatoriaEnSuelo(String name,double mapaAncho, double mapaAlto) {
-        int randomX = (int) (Math.random() * mapaAncho);
-        int randomY = (int) (Math.random() * mapaAlto);
-
-        Vector posicion = new Vector(randomX, randomY);
-
-
-        Weapon armaEnSuelo = new Weapon(name,randomX ,randomY);
-
-
-
+    public void generarArmaEnSuelo(String name, int x, int y) {
+        Weapon armaEnSuelo = new Weapon(name, x , y);
         weaponsInTheFloor.add(armaEnSuelo);
     }
 
 
-    public void generarGranadasEnElSuelo(String name,double mapaAncho, double mapaAlto) {
-        int randomX = (int) (Math.random() * mapaAncho);
-        int randomY = (int) (Math.random() * mapaAlto);
-
-        Vector posicion = new Vector(randomX, randomY);
-
-
-        Grenade grenade = new Grenade(name,randomX ,randomY);
-
-
-
+    public void generarGranadasEnElSuelo(String name,int x, int y) {
+        Grenade grenade = new Grenade(name,x ,y);
         grenadesInTheFloor.add(grenade);
     }
 
