@@ -311,10 +311,11 @@ public class GameSceneOne {
                     avatar.setMoving(Wpressed || Spressed || Dpressed || Apressed);
                     for (int i = 0; i < level.getBullets().size(); i++) {
                         level.getBullets().get(i).draw(gc);
-                        if (isOutside(level.getBullets().get(i).pos.getX(), level.getBullets().get(i).pos.getY())) {
-                            if (!level.getBullets().isEmpty()) {
+                        if (!level.getBullets().isEmpty()) {
+                            if (isOutside(level.getBullets().get(i).pos.getX(), level.getBullets().get(i).pos.getY())) {
                                 level.getBullets().remove(i);
                             }
+                            collisionParedesBullets(level.getBullets().get(i));
                         }
                     }
                     for (int i = 0; i < level.getThrowGranades().size(); i++) {
@@ -364,6 +365,7 @@ public class GameSceneOne {
 
                 });
 
+                //Colision con de enemigos con paredes
                 for (Enemy enemies : level.getEnemies()) {
                     for (Paredes paredes : level.getParedes()) {
                         double diffX = enemies.pos.getX() - paredes.getX();
@@ -388,7 +390,6 @@ public class GameSceneOne {
                         }
                     }
                 }
-
 
                 // Paredes
                 if (avatar.pos.getX() < 25) {
@@ -680,8 +681,37 @@ public class GameSceneOne {
         }
     }
 
-    private void collisionParedesEnemies(Paredes paredes, Enemy enemies) {
-
+    private void collisionParedesBullets(Bullet bullet) {
+        for (Paredes paredes : levels.get(currentLevel).getParedes()) {
+            double diffX = bullet.pos.getX() - paredes.getX();
+            double diffY = bullet.pos.getY() - paredes.getY();
+            if ((diffX > (-bullet.getWidth()) && diffX < paredes.getWidth()) && (diffY > (-bullet.getHeight()) && diffY < paredes.getHeight())) {
+                double diffSup = Math.abs(diffY + bullet.getHeight());
+                double diffBottom = Math.abs(diffY - paredes.getHeight());
+                double diffRight = Math.abs(diffX - paredes.getWidth());
+                double diffLeft = Math.abs(diffX + bullet.getWidth());
+                if (diffSup < 9) {
+                    if (!levels.get(currentLevel).getBullets().isEmpty()) {
+                        levels.get(currentLevel).getBullets().remove(bullet);
+                    }
+                }
+                if (diffBottom < 9) {
+                    if (!levels.get(currentLevel).getBullets().isEmpty()) {
+                        levels.get(currentLevel).getBullets().remove(bullet);
+                    }
+                }
+                if (diffRight < 9) {
+                    if (!levels.get(currentLevel).getBullets().isEmpty()) {
+                        levels.get(currentLevel).getBullets().remove(bullet);
+                    }
+                }
+                if (diffLeft < 9) {
+                    if (!levels.get(currentLevel).getBullets().isEmpty()) {
+                        levels.get(currentLevel).getBullets().remove(bullet);
+                    }
+                }
+            }
+        }
     }
 
     public static double getGroundLevel() {
