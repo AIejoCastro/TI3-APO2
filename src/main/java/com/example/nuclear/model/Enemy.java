@@ -3,6 +3,7 @@ package com.example.nuclear.model;
 import com.example.nuclear.GameSceneOne;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Enemy extends Drawing implements Runnable{
 
@@ -11,6 +12,7 @@ public class Enemy extends Drawing implements Runnable{
     private int imageIndex = 0;
     private Image[] run;
     private int bulletsReceived;
+    private Rectangle rectangle;
 
     public Enemy(Vector pos){
         this.pos = pos;
@@ -19,6 +21,10 @@ public class Enemy extends Drawing implements Runnable{
             String uri = "file:" + GameSceneOne.class.getResource("Enemy Rat/Walk Rat " + i + ".png").getPath();
             run[i - 1] = new Image(uri);
         }
+
+        double x=  pos.getX();
+        double y =pos.getY();
+        rectangle = new Rectangle(x - 20, y - 20, 40, 40);
     }
 
     public void changeImage() {
@@ -73,5 +79,12 @@ public class Enemy extends Drawing implements Runnable{
 
     public void setBulletsReceived(int bulletsReceived) {
         this.bulletsReceived = bulletsReceived;
+    }
+
+    public double getHeight() {
+        return rectangle.getHeight();
+    }
+    public double getWidth() {
+        return rectangle.getWidth();
     }
 }

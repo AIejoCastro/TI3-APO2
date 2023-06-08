@@ -330,7 +330,7 @@ public class GameSceneOne {
                     }
                     for (int i = 0; i < level.getParedes().size(); i++) {
                         level.getParedes().get(i).draw(gc);
-                     collisionParedesAvatar(level.getParedes().get(i));
+                        collisionParedesAvatar(level.getParedes().get(i));
                     }
 
                     //Armas en el suelo
@@ -343,7 +343,6 @@ public class GameSceneOne {
                         level.getGrenadesInTheFloor().get(i).draw(gc);
 
                     }
-
 
 
                     //dibujar barra de vida
@@ -365,7 +364,30 @@ public class GameSceneOne {
 
                 });
 
-                // Geometric calculations
+                for (Enemy enemies : level.getEnemies()) {
+                    for (Paredes paredes : level.getParedes()) {
+                        double diffX = enemies.pos.getX() - paredes.getX();
+                        double diffY = enemies.pos.getY() - paredes.getY();
+                        if ((diffX > (-enemies.getWidth()) && diffX < paredes.getWidth()) && (diffY > (-enemies.getHeight()) && diffY < paredes.getHeight())) {
+                            double diffSup = Math.abs(diffY + enemies.getHeight());
+                            double diffBottom = Math.abs(diffY - paredes.getHeight());
+                            double diffRight = Math.abs(diffX - paredes.getWidth());
+                            double diffLeft = Math.abs(diffX + enemies.getWidth());
+                            if (diffSup < 9) {
+                                enemies.pos.setY(enemies.pos.getY() - 5);
+                            }
+                            if (diffBottom < 9) {
+                                enemies.pos.setY(enemies.pos.getY() + 5);
+                            }
+                            if (diffRight < 9) {
+                                enemies.pos.setX(enemies.pos.getX() + 5);
+                            }
+                            if (diffLeft < 9) {
+                                enemies.pos.setX(enemies.pos.getX() - 5);
+                            }
+                        }
+                    }
+                }
 
 
                 // Paredes
@@ -658,8 +680,9 @@ public class GameSceneOne {
         }
     }
 
+    private void collisionParedesEnemies(Paredes paredes, Enemy enemies) {
 
-
+    }
 
     public static double getGroundLevel() {
         return GROUND_LEVEL;
