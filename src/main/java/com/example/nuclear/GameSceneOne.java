@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+import static com.example.nuclear.HelloApplication.openWindow;
+
 public class GameSceneOne {
     @FXML
     private Canvas canvas;
@@ -539,7 +541,8 @@ public class GameSceneOne {
                         Vector pos = new Vector(en.pos.getX() + offsetX, en.pos.getY() + offsetY);
                         en.setPos(pos);
                         if (avatar.getBitesReceived() == 3) {
-                            //Acaba el juego
+                            System.exit(0);
+                      //      HelloApplication.openWindow("death-scene.fxml");
                         }
                     }
                 }

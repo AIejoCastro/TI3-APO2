@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.image.ImageView?>
+
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane fx:id="miAnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclear.HelloController">
-    <children>
-        <ImageView fx:id="playBT" fitHeight="200" fitWidth="300">
+
+<BorderPane fx:id="miAnchorPane" prefHeight="566.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nuclear.HelloController">
+   <bottom>
+        <ImageView fx:id="quitBT" fitHeight="200" fitWidth="300" BorderPane.alignment="CENTER">
             <image>
-                <Image url="@Misc/Play.png"/>
+                <Image url="@Misc/Quit.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="quitBT" fitHeight="200" fitWidth="300" layoutX="300">
+   </bottom>
+   <center>
+        <ImageView fx:id="playBT" fitHeight="158.0" fitWidth="289.0" BorderPane.alignment="CENTER">
             <image>
-                <Image url="@Misc/Quit.png"/>
+                <Image url="@Misc/Play.png" />
             </image>
         </ImageView>
-    </children>
+   </center>
 </BorderPane>
