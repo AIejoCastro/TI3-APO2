@@ -4,9 +4,12 @@ import com.example.nuclear.model.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -14,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -43,16 +47,9 @@ public class GameSceneOne {
     private Paredes paredes;
 
     private ArrayList<Weapon> weapons;
-
     private ArrayList<Grenade> grenades;
-
     private LifeBar lifeBar;
-
     private BulletBar bulletBar;
-
-
-
-
     private Scene scene;
 
     public GameSceneOne() {
@@ -541,7 +538,6 @@ public class GameSceneOne {
                     }
                 }
 
-
                 for (int i = 0; i < level.getThrowGranades().size(); i++) {
                     ThrowGrenade bn = level.getThrowGranades().get(i);
                     for (int j = 0; j < level.getEnemies().size(); j++) {
@@ -560,8 +556,6 @@ public class GameSceneOne {
                         }
                     }
                 }
-
-
 
                 //Enemigos a donde miran
                 for (int i = 0; i < levels.get(currentLevel).getEnemies().size(); i++) {
@@ -611,6 +605,7 @@ public class GameSceneOne {
         ae.setDaemon(true); // Establecer como daemon para que se detenga cuando se cierre la aplicación
         ae.start();
     }
+
     private void collisionParedesAvatar(Paredes paredes) {
         double diffX=avatar.pos.getX() -paredes.getX();
         double diffY=avatar.pos.getY() -paredes.getY();
@@ -786,5 +781,4 @@ public class GameSceneOne {
                 break;
         }
     }
-
 }
