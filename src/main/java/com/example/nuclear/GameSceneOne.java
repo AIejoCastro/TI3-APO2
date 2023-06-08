@@ -148,14 +148,24 @@ public class GameSceneOne {
         // Generate the second map
         Level l2 = new Level(1);
         l2.setColor(Color.GRAY);
-        for (int i = 0; i < 49; i++) {
+        for (int i = 0; i < 2; i++) {
             randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
             randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
             l2.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
         }
         levels.add(l2);
+
+        Level l3 = new Level(2);
+        for (int i = 0; i < 5; i++) {
+            randomNumberHeight = Math.random() * (canvas.getHeight() - 1 + 1) + 1;
+            randomNumberWidth = Math.random() * (canvas.getWidth() - 1 + 1) + 1;
+            l3.getEnemies().add(new Enemy(new Vector(randomNumberWidth, randomNumberHeight)));
+        }
+        levels.add(l3);
+
         drawParedes(0);
         drawParedes(1);
+        drawParedes(2);
         draw();
     }
 
@@ -262,8 +272,7 @@ public class GameSceneOne {
 
             //disminuir del indicador
             bulletBar.decreaseBullet();
-        }
-        else if(avatar.getGrenade()!= null){
+        } else if(avatar.getGrenade()!= null){
 
 
             double diffX = e.getX() - avatar.pos.getX();
@@ -402,8 +411,15 @@ public class GameSceneOne {
                     avatar.pos.setX(canvas.getWidth() - 25);
                 }
                 if (avatar.pos.getY() < 0) {
-                    currentLevel = 1;
-                    avatar.pos.setY(canvas.getHeight());
+                    if (level.getEnemies().size() == 0) {
+                        if(currentLevel == 0) {
+                            currentLevel = 1;
+                        } else if (currentLevel == 1) {
+                            currentLevel = 2;
+                        }
+                    } else {
+                        avatar.pos.setY(canvas.getHeight());
+                    }
                 }
 
                 // Dentro del bucle de dibujo en el método draw()
@@ -533,80 +549,14 @@ public class GameSceneOne {
                         );
 
                         if (distance < 25) {
-                            en.setBulletsReceived(en.getBulletsReceived() + 1);
                             level.getThrowGranades().remove(i);
                             bn.drawExplotion(gc);
-                            if (en.getBulletsReceived() == 3) {
-                                level.getEnemies().remove(j);
-                            }
+                            level.getEnemies().remove(j);
                         }
                     }
                 }
 
-                /*
 
-                          for (int i = 0; i < level.getThrowGranades().size(); i++) {
-                    ThrowGranade granade = level.getThrowGranades().get(i);
-                    granade.update(); // Actualizar la posición de la granada
-
-                    // Verificar si la granada ha explotado
-                    if (granade.isExploded()) {
-                        Enemy enemy=granade.explode(level.getEnemies()); // Realizar la explosión y eliminar enemigos si corresponde
-                        level.getThrowGranades().remove(i); // Eliminar la granada del nivel
-                        if(enemy!=null){
-                            level.getEnemies().remove(enemy);
-                        }
-                        granade.drawExplotion(gc);
-                        i--; // Decrementar el índice después de eliminar una granada
-                    }
-
-                }
-                 */
-
-
-
-
-                 /*
-                  for (int i = 0; i < level.getThrowGranades().size(); i++) {
-                                      ThrowGranade bn = level.getThrowGranades().get(i);
-
-                                      for (int j = 0; j < level.getEnemies().size(); j++) {
-                                          Enemy en = level.getEnemies().get(j);
-
-                                         double distance = Math.sqrt(
-                                                 Math.pow(en.pos.getX() - bn.getPos().getX(), 2) +
-                                                          Math.pow(en.pos.getY() - bn.getPos().getY(), 2)
-                                          );
-
-                                          if (distance < 5) {
-                                              level.getThrowGranades().remove(i);
-                                              bn.drawExplotion(gc);
-                                              level.getEnemies().remove(j);
-                                          }
-                                      }
-                                  }
-                /*
-
-
-                /*
-                for (int i = 0; i < level.getThrowGranades().size(); i++) {
-                    ThrowGranade granade = level.getThrowGranades().get(i);
-                    granade.update(); // Actualizar la posición de la granada
-
-
-                    // Verificar si la granada ha explotado
-                    if (granade.isExploded()) {
-                        for (int j = 0; j < level.getEnemies().size(); j++) {
-                            Enemy en = level.getEnemies().get(j);
-                                if(granade.hasCollidedWithEnemy(en)){
-                                    level.getEnemies().remove(en);
-                                }
-                        }
-                    }
-                }
-
-                 */
-                //aqui va lo de la granada
 
                 //Enemigos a donde miran
                 for (int i = 0; i < levels.get(currentLevel).getEnemies().size(); i++) {
@@ -748,24 +698,76 @@ public class GameSceneOne {
     public void drawParedes(int index) {
         String path = "file:" + HelloApplication.class.getResource("Misc/ParedFill.png").getPath();
         int height = 600;
-        int heighty=1020;
-        int heightx = 30;
+        int heighty = 1020;
         int increment = 30;
+        double canvasHeight = canvas.getHeight();
+        double canvasWidth = canvas.getWidth();
         Level lvl = levels.get(index);
 
+        switch (index) {
+            case 0:
+                for (int i = 0; i < 20; i++) {
+                    int xPos = (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, xPos, 20));
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    int yPos = (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, 600, yPos));
+                }
+
+                for (int i = 0; i < 10; i++) {
+                    int xPos = (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, xPos, 300));
+                }
+
+                for (int i = 0; i < 5; i++) {
+                    int yPos = (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
+                }
+
+                for (int i = 0; i < 20; i++) {
+                    int xPos = heighty + (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, xPos, 350));
+                }
+
+                for (int i = 0; i < 20; i++) {
+                    int xPos = (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, xPos, 620));
+                }
+
+                for (int i = 0; i < 17; i++) {
+                    int yPos = height + (i * increment);
+                    lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
+                }
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+
+        /*
         for (int i = 0; i < 20; i++) {
             int xPos = heightx + (i * increment);
-            lvl.getParedes().add(new Paredes(canvas, path, xPos, 40));
+            lvl.getParedes().add(new Paredes(canvas, path, xPos, 20));
         }
 
         for (int i = 0; i < 10; i++) {
             int yPos = heightx + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, 600, yPos));
         }
+
+        for (int i = 0; i < 10; i++) {
+            int xPos = heightx + (i * increment);
+            lvl.getParedes().add(new Paredes(canvas, path, xPos, 300));
+        }
+
         for (int i = 0; i < 5; i++) {
             int yPos = heightx + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
         }
+
         for (int i = 0; i < 20; i++) {
             int xPos = heighty + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, xPos, 350));
@@ -775,10 +777,12 @@ public class GameSceneOne {
             int xPos = heightx + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, xPos, 620));
         }
+
         for (int i = 0; i < 17; i++) {
             int yPos = height + (i * increment);
             lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
         }
+         */
     }
 
 }
