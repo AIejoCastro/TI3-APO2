@@ -319,7 +319,9 @@ public class GameSceneOne {
                     if (!level.getBullets().isEmpty()) {
                         for (int i = 0; i < level.getBullets().size(); i++) {
                             collisionParedesBullets(level.getBullets().get(i));
-                            level.getBullets().get(i).draw(gc);
+                            if (!level.getBullets().isEmpty()) {
+                                level.getBullets().get(i).draw(gc);
+                            }
                         }
                     }
                     if (!level.getBullets().isEmpty()) {
@@ -329,16 +331,20 @@ public class GameSceneOne {
                             }
                         }
                     }
-                    for (int i = 0; i < level.getThrowGranades().size(); i++) {
-                        level.getThrowGranades().get(i).draw(gc);
-                        if (isOutside(level.getThrowGranades().get(i).getPos().getX(), level.getThrowGranades().get(i).getPos().getY())) {
-                            if (!level.getThrowGranades().isEmpty()) {
-                                level.getThrowGranades().remove(i);
+                    if (!level.getThrowGranades().isEmpty()) {
+                        for (int i = 0; i < level.getThrowGranades().size(); i++) {
+                            level.getThrowGranades().get(i).draw(gc);
+                            if (isOutside(level.getThrowGranades().get(i).getPos().getX(), level.getThrowGranades().get(i).getPos().getY())) {
+                                if (!level.getThrowGranades().isEmpty()) {
+                                    level.getThrowGranades().remove(i);
+                                }
                             }
                         }
                     }
-                    for (int i = 0; i < level.getEnemies().size(); i++) {
-                        level.getEnemies().get(i).draw(gc);
+                    if (!level.getEnemies().isEmpty()) {
+                        for (int i = 0; i < level.getEnemies().size(); i++) {
+                            level.getEnemies().get(i).draw(gc);
+                        }
                     }
                     for (int i = 0; i < level.getParedes().size(); i++) {
                         level.getParedes().get(i).draw(gc);
@@ -698,7 +704,7 @@ public class GameSceneOne {
     public void drawParedes(int index) {
         String path = "file:" + HelloApplication.class.getResource("Misc/ParedFill.png").getPath();
         int height = 590;
-        int heighty = 770;
+        int heighty = 930;
         int increment = 30;
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
@@ -716,17 +722,12 @@ public class GameSceneOne {
                     lvl.getParedes().add(new Paredes(canvas, path, 600, yPos));
                 }
 
-                for (int i = 0; i < 10; i++) {
-                    int xPos = (i * increment);
-                    lvl.getParedes().add(new Paredes(canvas, path, xPos, 300));
-                }
-
                 for (int i = 0; i < 5; i++) {
                     int yPos = (i * increment);
                     lvl.getParedes().add(new Paredes(canvas, path, 800, yPos));
                 }
 
-                for (int i = 0; i < 25; i++) {
+                for (int i = 0; i < 17; i++) {
                     int xPos = heighty + (i * increment);
                     lvl.getParedes().add(new Paredes(canvas, path, xPos, 350));
                 }
